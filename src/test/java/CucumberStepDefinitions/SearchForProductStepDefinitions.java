@@ -15,12 +15,20 @@ public class SearchForProductStepDefinitions {
 	@When("I open the Initial home page")
 	public void openInitialPage() {
 		String browser = System.getProperty("browser");
-		if (browser.equalsIgnoreCase("firefox")) {
-			driver = new FirefoxDriver();
+
+		switch (browser) {
+			case "Chrome":
+				driver = new ChromeDriver();
+				System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+				break;
+			case "Firefox":
+				driver = new FirefoxDriver();
+				System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+				break;
+			default:
+				throw new IllegalStateException("This driver is not supported");
 		}
-		if (browser.equalsIgnoreCase("chrome")) {
-			driver = new ChromeDriver();
-		}
+
 		homePage = new HomePage(driver);
 		PageNavigation.openPage(driver, "https://www.bookdepository.com/");
 	}
@@ -33,10 +41,9 @@ public class SearchForProductStepDefinitions {
 	@And("Search results are not empty")
 	public void verifyThatSearchResultsAreNotEmpty() {
 		List<WebElement> books = driver.findElements(By.xpath("//div[@class='book-item']"));
-		assertSoftly(
-				softAssertions -> {
-					softAssertions.assertThat(books).isNotEmpty();
-				});
+		assertSoftly(softAssertions -> {
+			softAssertions.assertThat(books).isNotEmpty();
+		});
 		driver.quit();
 	}
 }

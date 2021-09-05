@@ -75,7 +75,7 @@
                     <parallel>methods</parallel>
                     <threadCount>2</threadCount>
                         <systemPropertyVariables>
-                            <browser>Chrome</browser>
+                            <browser>Firefox</browser>
                         </systemPropertyVariables>
                     <includes>
                         <include>TestRunner.class</include>

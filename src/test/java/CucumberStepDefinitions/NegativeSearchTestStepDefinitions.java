@@ -1,11 +1,14 @@
 package CucumberStepDefinitions;
+
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
 import Pages.HomePage;
 import Pages.PageNavigation;
 import io.cucumber.java.en.*;
+
 
 public class NegativeSearchTestStepDefinitions {
 	WebDriver driver;
@@ -13,13 +16,21 @@ public class NegativeSearchTestStepDefinitions {
 
 	@Given("User opens Home Page")
 	public void userOpensHomePage() {
-		String browser = System.getProperty ("browser");
-		if(browser.equalsIgnoreCase("Firefox")){
-			driver = new FirefoxDriver();
+		String browser = System.getProperty("browser");
+
+		switch (browser) {
+			case "Chrome":
+				driver = new ChromeDriver();
+				System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+				break;
+			case "Firefox":
+				driver = new FirefoxDriver();
+				System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+				break;
+			default:
+				throw new IllegalStateException("This driver is not supported");
 		}
-		if(browser.equalsIgnoreCase("Chrome")){
-			driver = new ChromeDriver();
-		}
+
 		homePage = new HomePage(driver);
 		PageNavigation.openPage(driver, "https://www.bookdepository.com/");
 	}
@@ -31,7 +42,7 @@ public class NegativeSearchTestStepDefinitions {
 
 	@Then("^User is redirected to Advanced Search page with the following URL ((?:http|https):\\/\\/[\\w+./?=&]+)$")
 	public void verifyUserIsRedirectedToCorrectPage(String expectedURL) {
-		Assert.assertEquals("Page URL is incorrect" , expectedURL, driver.getCurrentUrl());
+		Assert.assertEquals("Page URL is incorrect", expectedURL, driver.getCurrentUrl());
 		driver.quit();
 	}
 }

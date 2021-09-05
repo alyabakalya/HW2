@@ -16,4 +16,5 @@ public class BasePage {
 		element.sendKeys(value);
 		return this;
 	}
+
 }

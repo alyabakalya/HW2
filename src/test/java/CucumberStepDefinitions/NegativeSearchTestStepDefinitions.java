@@ -20,12 +20,12 @@ public class NegativeSearchTestStepDefinitions {
 
 		switch (browser) {
 			case "Chrome":
-				driver = new ChromeDriver();
 				System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+				driver = new ChromeDriver();
 				break;
 			case "Firefox":
-				driver = new FirefoxDriver();
 				System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver.exe");
+				driver = new FirefoxDriver();
 				break;
 			default:
 				throw new IllegalStateException("This driver is not supported");
